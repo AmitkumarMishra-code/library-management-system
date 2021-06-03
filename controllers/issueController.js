@@ -53,13 +53,16 @@ const issueBook = async(bookName, memberId) => {
 
 const submitBook = async(bookName) => {
     let book = await Book.findOne({ title: bookName })
-    let returnIssue = await Issue.findOneAndUpdate({ book: book._id }, { $set: { isIssued: true } })
-        // if (returnIssue) {
-        //     await returnIssue.updateOne({ $set: { isIssued: true } })
-        //     console.log(`\n\n${bookName} returned successfully`)
-        // } else {
-        //     console.log('\n\nWe encountered an error!')
-        // }
+    let beforeReturn = await Issue.updateOne({ book: book._id, isIssued: false }, { $set: { isIssued: true } })
+    calculateTime(beforeReturn.createdAt)
+    console.log(`${bookName} returned successfully`)
+}
+
+function calculateTime(time) {
+    timeInHours = time / 360000
+    if (timeInHours > 168) {
+        console.log('Book was overdue. You have a pending penalty against this book.\n\nPay the penalty if you want to issue a new book.')
+    }
 }
 
 const activeIssues = async() => {

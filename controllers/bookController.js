@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const Category = require('../models/category')
 const Book = require('../models/book')
 const Member = require('../models/member')
+const Issue = require('../models/issue')
 
 
 const printAllBooks = async() => {
@@ -40,7 +41,11 @@ const deleteBook = async(bookName) => {
     if (!book) {
         console.log('\n\nNo record found')
     } else {
-        book.remove()
+        let issues = await Issue.find({ book: book._id })
+        if (issues.length) {
+            issue.forEach(issue => issue.remove())
+        }
+        await book.remove()
         console.log('\n\n' + bookName + ' removed successfully')
     }
 }

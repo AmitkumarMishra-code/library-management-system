@@ -1,6 +1,8 @@
 const mongoose = require('mongoose')
 
 const Member = require('../models/member')
+const Issue = require('../models/issue')
+
 
 const printAllMembers = async() => {
     let members = await Member.find()
@@ -32,7 +34,11 @@ const deleteMember = async(memberId) => {
     if (!member) {
         console.log('\n\nNo record found')
     } else {
-        member.remove()
+        let issue = await Issue.findOne({ member: member._id })
+        if (issue) {
+            await issue.remove()
+        }
+        await member.remove()
         console.log('\n\n' + member.name + ' removed successfully')
     }
 }
