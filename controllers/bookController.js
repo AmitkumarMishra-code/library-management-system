@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const Category = require('../models/category')
 const Book = require('../models/book')
+const Member = require('../models/member')
 
 
 const printAllBooks = async() => {
@@ -44,10 +45,25 @@ const deleteBook = async(bookName) => {
     }
 }
 
+const getBooksOfCategory = async(categoryName) => {
+    let response = await getCategoryId(categoryName)
+    if (response.id) {
+        let books = await Book.find({ category: response.id })
+        console.log('\n\n---Start of List---\n')
+        books.length ? books.forEach(book => console.log(`${book.title}, by ${book.authors.join(',')}`)) : console.log('No Books Found!')
+        console.log('\n---End of List---\n\n')
+    } else {
+        console.log('\n\n---Search Result---\n')
+        console.log('\nNo Books Found! Try another Category.')
+        console.log('\n---End of Search Result---\n\n')
+    }
+}
+
 module.exports = {
     printAllBooks,
     addNewBook,
     getCategoryId,
     searchBook,
-    deleteBook
+    deleteBook,
+    getBooksOfCategory
 }
