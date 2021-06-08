@@ -1,0 +1,48 @@
+head 
+    title Mclaren Library - Add a new Book 
+    link(rel="stylesheet" href = "addBook.css")
+body
+-var category = categories 
+    h1 Add a New Book to the Library
+    div(
+        class="container"
+    )
+    form(
+        method='POST'
+        action = '/books/add-book'
+    )
+        div
+            label Book Name
+            input(
+                type='text'
+                name = 'title'
+                placeholder = 'Name of book...'
+            )
+        div 
+            label Price 
+            input(
+                type='number'
+                name = 'price'
+                placeholder = 'Price...'
+            )
+        div
+            label Author Name(s)
+            input(
+                type='text'
+                name='authors'
+                placeholder = 'Name of author(s)...'
+            )
+        div
+            label Category
+            select(
+                name = 'category'
+            )
+                each category in categories 
+                    option(
+                        value=`${category.name}`
+                    ) #{category.name}
+        div(
+            class = 'button'
+        )
+            button Add Book
+

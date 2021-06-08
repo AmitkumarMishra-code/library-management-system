@@ -11,6 +11,7 @@ const printAllBooks = async() => {
     console.log('\n\n---Start of List---\n')
     books.length ? books.forEach(book => console.log(`${book.title}, by ${book.authors.join(',')}`)) : console.log('No Books Found!')
     console.log('\n---End of List---\n\n')
+    return books
 }
 
 const addNewBook = async(title, price, category, authors) => {

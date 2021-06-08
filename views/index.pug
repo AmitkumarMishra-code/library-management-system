@@ -1,0 +1,12 @@
+head
+    title McLaren Library 
+    link(rel="stylesheet" href = "styles.css")
+body 
+    h1=message
+    h3 Available Books
+    -var books = serverBooks
+    each book in books
+        p #{book.title} - #{book.authors}
+
+    a(href='/addBook')
+        button Add New Book

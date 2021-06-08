@@ -7,6 +7,7 @@ const printAllCategories = async() => {
     console.log('\n\n---Start of List---\n')
     data.forEach(category => console.log(category.name))
     console.log('\n---End of List---\n\n')
+    return data
 }
 
 const addNewCategory = async(categoryName) => {

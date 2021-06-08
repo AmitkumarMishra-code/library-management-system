@@ -2,15 +2,19 @@
     "name": "library-management-cli",
     "version": "1.0.0",
     "description": "Library Management System",
-    "main": "index.js",
+    "main": "app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node index.js"
+        "start": "nodemon app.js"
     },
     "author": "Amit",
     "license": "ISC",
     "dependencies": {
+        "express": "^4.17.1",
         "mongoose": "^5.12.12",
+        "morgan": "^1.10.0",
+        "nodemon": "^2.0.7",
+        "pug": "^3.0.2",
         "readline-sync": "^1.4.10"
     }
 }
