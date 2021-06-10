@@ -51,6 +51,19 @@ const deleteBook = async(bookName) => {
     }
 }
 
+const deleteBookbyId = async(bookID) => {
+    let id = mongoose.mongo.ObjectId(bookID)
+    let book = await Book.findOne({ _id: id })
+    if (!book) {
+        console.log('\n\nNo record found')
+        return false
+    } else {
+        await book.remove()
+        console.log('\n\n' + book.title + ' removed successfully')
+        return true
+    }
+}
+
 const getBooksOfCategory = async(categoryName) => {
     let response = await getCategoryId(categoryName)
     if (response.id) {
@@ -71,5 +84,6 @@ module.exports = {
     getCategoryId,
     searchBook,
     deleteBook,
-    getBooksOfCategory
+    getBooksOfCategory,
+    deleteBookbyId
 }
