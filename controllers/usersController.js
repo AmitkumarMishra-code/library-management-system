@@ -33,7 +33,25 @@ const getUsers = async() => {
     }
 }
 
+const loginUser = async({ email, password }) => {
+    try {
+        let user = await User.findOne({ email })
+        if (!user) {
+            return { status: false, result: { message: 'Invalid Email' } }
+        }
+        let result = await bcrypt.compare(password, user.password)
+        if (!result) {
+            return { status: false, result: { message: 'Invalid Password' } }
+        } else {
+            return { status: true, result: user }
+        }
+    } catch (error) {
+        return { status: false, result: { message: 'Error' + error.message } }
+    }
+}
+
 module.exports = {
     addNewUser,
-    getUsers
+    getUsers,
+    loginUser
 }

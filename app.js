@@ -1,18 +1,22 @@
+require('dotenv').config()
+
 const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const app = express();
 const cors = require('cors')
+const jwt = require('jsonwebtoken')
 
 app.set('view engine', 'pug')
 
 app.use(morgan('dev'))
 app.use(logger)
+app.use(cors())
 app.use(express.static('static'))
 app.use(express.json())
 
 app.use(express.urlencoded({ extended: true }))
-app.use(cors())
+
 
 //importing routes here
 
@@ -21,7 +25,7 @@ const authRouter = require('./routes/auth');
 const { printAllCategories } = require('./controllers/categoryController');
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/library', {
+mongoose.connect(process.env.MONGODB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
@@ -39,7 +43,21 @@ app.get('/addBook', async(req, res) => {
     res.render('addBook', { categories: categories })
 })
 
-app.use('/books', bookRouter)
+let validateRequest = (req, res, next) => {
+    let authorized = req.headers.authorization
+    if (!authorized) {
+        res.status(403).send('You are not authorized to view this page')
+    } else {
+        try {
+            let decoded = jwt.verify(authorized.split(' ')[1], process.env.ACCESS_TOKEN_SECRET)
+            next()
+        } catch (error) {
+            res.status(403).send(error.message)
+        }
+    }
+}
+
+app.use('/books', validateRequest, bookRouter)
 
 
 

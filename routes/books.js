@@ -8,8 +8,6 @@ router
     .route('/')
     .get(async(req, res) => {
         let books = await printAllBooks()
-            // console.log(books)
-            // res.render('index', { message: 'Welcome to Mclaren Library!', serverBooks: books })
         res.json(books)
     })
     .post((req, res) => {
