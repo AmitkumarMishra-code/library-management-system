@@ -54,7 +54,7 @@ router.post('/login', async(req, res) => {
 router.post('/token', (req, res) => {
     let { token } = req.body
     if (!token || !refreshTokens.includes(token)) {
-        res.status(403).send('Invalid Token')
+        res.status(401).send('Invalid Token')
     } else {
         try {
             let decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET)
@@ -62,7 +62,7 @@ router.post('/token', (req, res) => {
             let newToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_EXPIRE_TIME })
             res.status(200).json({ 'access_Token': newToken })
         } catch (error) {
-            res.status(403).send(error.message)
+            res.status(401).send(error.message)
         }
     }
 })
