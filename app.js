@@ -72,7 +72,7 @@ app.all(/.*/, (req, res) => {
 
 const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
-    console.log(`Server is listening at http://localhost:${PORT}`);
+    console.log(`Server is listening at port number : ${PORT}`);
 })
 
 function logger(req, res, next) {
